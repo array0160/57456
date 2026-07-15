@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>TimePortal 即時走進老照片</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 公開 CDN：原型測試用 -->
+  <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
+</head>
+<body>
+  <main id="homeView" class="view">
+    <section class="home-card">
+      <h1>TimePortal</h1>
+      <p>同一個 GitHub Pages 網址，可切換成大螢幕或手機攝影機。</p>
+      <button id="openScreenBtn" class="primary">在這台電腦開啟大螢幕</button>
+      <button id="openMobileTestBtn">在這台裝置測試手機模式</button>
+    </section>
+  </main>
+
+  <main id="screenView" class="view hidden">
+    <canvas id="screenCanvas"></canvas>
+    <canvas id="personCanvas"></canvas>
+
+    <section id="screenPanel" class="screen-panel">
+      <div class="portal-mark">TIME PORTAL</div>
+      <h2>走進老照片</h2>
+      <p class="screen-lead">請用手機掃描，開始即時穿越</p>
+
+      <div class="qr-shell">
+        <div id="qrcode"></div>
+      </div>
+
+      <p id="screenStatus">正在建立時光連線…</p>
+      <button id="fullscreenBtn" type="button">進入全螢幕</button>
+
+      <code id="mobileUrl" aria-hidden="true"></code>
+    </section>
+
+    <video id="remoteVideo" autoplay muted playsinline></video>
+  </main>
+
+  <main id="mobileView" class="view hidden">
+    <video id="cameraVideo" autoplay muted playsinline></video>
+    <canvas id="mobileCanvas"></canvas>
+
+    <section id="mobileStart" class="mobile-start">
+      <h2>手機攝影機</h2>
+      <p>允許相機後，人物外圈會出現提示線；大螢幕會同步顯示去背後的人物。</p>
+      <button id="startCameraBtn" class="primary">開啟相機並連線</button>
+    </section>
+
+    <div class="mobile-toolbar">
+      <button id="switchCameraBtn" disabled>切換前／後鏡頭</button>
+      <span id="mobileStatus">尚未啟動</span>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;background:#111;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+button{border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer}
+button.primary{background:#fff;color:#111}
+button:disabled{opacity:.45}
+.hidden{display:none!important}
+.view{width:100%;height:100%}
+
+#homeView{display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 35%,#3a3a3a,#111 70%)}
+.home-card{width:min(520px,92vw);padding:30px;border-radius:24px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);text-align:center}
+.home-card h1{font-size:42px;margin:0 0 8px}
+.home-card p{opacity:.8;line-height:1.6;margin:0 0 24px}
+.home-card button{display:block;width:100%;margin-top:12px}
+
+#screenView{position:relative;overflow:hidden;background:#000}
+#screenCanvas{display:block;width:100%;height:100%}
+#remoteVideo{display:none}
+.screen-panel{position:absolute;left:24px;bottom:24px;width:min(430px,calc(100vw - 48px));padding:20px;border-radius:20px;background:rgba(0,0,0,.76);backdrop-filter:blur(12px);z-index:3}
+.screen-panel h2{margin:0 0 14px}
+#qrcode{width:180px;height:180px;background:#fff;padding:10px;border-radius:12px}
+#mobileUrl{display:block;margin-top:10px;overflow-wrap:anywhere;color:#72f3ff;font-size:12px}
+#screenStatus{margin-bottom:0;opacity:.8}
+
+#mobileView{position:relative;overflow:hidden;background:#000}
+#cameraVideo{display:none}
+#mobileCanvas{display:block;width:100%;height:100%;transform:scaleX(-1)}
+.mobile-start{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,88vw);padding:26px;border-radius:22px;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);text-align:center;z-index:4}
+.mobile-start h2{margin-top:0}
+.mobile-start p{line-height:1.55;opacity:.85}
+.mobile-toolbar{position:absolute;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:10px;align-items:center;justify-content:space-between;z-index:5}
+.mobile-toolbar button,.mobile-toolbar span{background:rgba(0,0,0,.68);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:10px 14px}
+.mobile-toolbar span{font-size:13px}
+
+
+/* ===== 大螢幕展覽介面 ===== */
+#screenView {
+  position: relative;
+  overflow: hidden;
+  background: #090807;
+}
+
+#screenView::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.42) 100%),
+    linear-gradient(to bottom, rgba(255,255,255,0.025), rgba(0,0,0,0.08));
+}
+
+#screenView::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.12;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.09) 0,
+      rgba(255,255,255,0.09) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode: soft-light;
+}
+
+#screenCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.screen-panel {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 50%;
+  width: min(440px, calc(100vw - 40px));
+  padding: 30px 30px 26px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 28px;
+  background:
+    linear-gradient(145deg, rgba(20, 17, 14, 0.90), rgba(5, 5, 5, 0.84));
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+  backdrop-filter: blur(18px) saturate(0.8);
+}
+
+.portal-mark {
+  margin-bottom: 10px;
+  color: rgba(233, 205, 160, 0.72);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.32em;
+}
+
+.screen-panel h2 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.screen-lead {
+  margin: 10px 0 22px;
+  color: rgba(255,255,255,0.72);
+  font-size: 15px;
+}
+
+.qr-shell {
+  width: 204px;
+  height: 204px;
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.5),
+    0 16px 40px rgba(0,0,0,0.38);
+}
+
+#qrcode {
+  width: 180px;
+  height: 180px;
+  padding: 0;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#qrcode img,
+#qrcode canvas {
+  display: block;
+  width: 180px !important;
+  height: 180px !important;
+}
+
+#screenStatus {
+  min-height: 20px;
+  margin: 18px 0 12px;
+  color: rgba(255,255,255,0.66);
+  font-size: 13px;
+}
+
+#fullscreenBtn {
+  width: 100%;
+  padding: 12px 16px;
+  color: #f4eadc;
+  border: 1px solid rgba(239, 213, 171, 0.28);
+  background: rgba(239, 213, 171, 0.08);
+}
+
+#fullscreenBtn:hover {
+  background: rgba(239, 213, 171, 0.14);
+}
+
+#mobileUrl {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+
+/* V0.3：背景與人物分成兩個畫布 */
+#personCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#screenCanvas {
+  z-index: 0;
+}
+
+#mobileCanvas {
+  /* 前鏡頭是否鏡像改由 JavaScript 處理，避免手機與大螢幕方向相反 */
+  transform: none !important;
+}
